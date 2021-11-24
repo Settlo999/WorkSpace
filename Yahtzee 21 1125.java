@@ -14,8 +14,8 @@ public class Main {
 		int d3 = makeDice();
 		int d4 = makeDice();
 		int d5 = makeDice();
-		int[] dices = {d1, d2, d3, d4, d5}; //配列入れ
-		Arrays.sort(dices);	//昇順に
+		int[] dices = {d1, d2, d3, d4, d5}; //配列に
+		Arrays.sort(dices); //昇順に
 		
 		System.out.println("現在の出目" + Arrays.toString(dices)); //出目
 		System.out.println();
@@ -49,7 +49,7 @@ public class Main {
 					dices[4] = makeDice();
 				}
 				
-				Arrays.sort(dices);	//整列し直し
+				Arrays.sort(dices); //整列し直し
 				System.out.println("現在の出目" + Arrays.toString(dices));
 				retryCount++; //回数追加
 			}
@@ -58,7 +58,6 @@ public class Main {
 				break;
 			}
 		}
-		
 		judge(dices);
 	}
 	
@@ -72,10 +71,10 @@ public class Main {
 		return dice;
 	}
 	
-    /*
-     * 出目の配列を受け取って各スコアを表示する
-     * @param int[] dices 出目の配列
-     */
+        /*
+         * 出目の配列を受け取って各スコアを表示する
+         * @param int[] dices 出目の配列
+         */
 	public static void judge(int[] dices) {
 		int oneCount = 0; //1の目のカウント
 		int twoCount = 0;
@@ -168,8 +167,7 @@ public class Main {
 				fourCount == 5 || fiveCount == 5 || sixCount == 5) {
 			System.out.println("フルハウス : " + 25); //AAAAAもフルハウス扱いで25点
 			System.out.println("ヨット : " + 50); //同じ出目が5つ以上なら50点
-		}
-		
+		}	
 	}
 
 }
