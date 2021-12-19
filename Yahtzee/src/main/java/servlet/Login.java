@@ -35,7 +35,7 @@ public class Login extends HttpServlet {
 		
 		User user = new User(name, pass);
 		
-		//通常ログインなら
+		//ユーザー登録なら
 		if(isFirst == null) {
 			LoginLogic LL = new LoginLogic();
 			boolean isLogin = LL.execute(user);
@@ -53,7 +53,7 @@ public class Login extends HttpServlet {
 				
 				RequestDispatcher d = request.getRequestDispatcher("/Yahtzee/");
 				d.forward(request, response);
-			}
+			}	
 		}
 		else {
 			UserRejisterLogic URL = new UserRejisterLogic();
@@ -73,7 +73,6 @@ public class Login extends HttpServlet {
 				RequestDispatcher d = request.getRequestDispatcher("/Yahtzee/");
 				d.forward(request, response);
 			}
-			
 		}
 	}
 
