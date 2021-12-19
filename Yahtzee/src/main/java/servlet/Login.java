@@ -26,35 +26,17 @@ public class Login extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//フォームから送信された情報を取得
 		request.setCharacterEncoding("UTF-8");
 		String name = request.getParameter("name");
 		String pass = request.getParameter("pass");
-		//ユーザー登録からpostされているかチェック。ログインからpostされているならnull
+		//通常ログインor新規登録のチェック用変数。通常ログインならisFirst = null
 		String isFirst = request.getParameter("isFirst");
 		
 		User user = new User(name, pass);
 		
-		//ユーザー登録なら
-		if(isFirst != null) {
-			UserRejisterLogic URL = new UserRejisterLogic();
-			boolean isRejistered = URL.rejister(user);
-			
-			//登録成功なら
-			if(isRejistered) {
-				HttpSession ses = request.getSession();
-				ses.setAttribute("newUser", user);
-				
-				RequestDispatcher d = request.getRequestDispatcher("/WEB-INF/userRejisterResult.jsp");
-				d.forward(request, response);
-			}
-			else {
-				request.setAttribute("errorMsg", "ユーザー登録に失敗しました。再度やり直してください。");
-				
-				RequestDispatcher d = request.getRequestDispatcher("/Yahtzee/");
-				d.forward(request, response);
-			}
-		}
-		else {
+		//通常ログインなら
+		if(isFirst == null) {
 			LoginLogic LL = new LoginLogic();
 			boolean isLogin = LL.execute(user);
 			
@@ -68,6 +50,25 @@ public class Login extends HttpServlet {
 			else {
 				HttpSession ses = request.getSession();
 				ses.setAttribute("errorMsg", "ログインに失敗しました。再度やり直してください。");
+				
+				RequestDispatcher d = request.getRequestDispatcher("/Yahtzee/");
+				d.forward(request, response);
+			}
+		}
+		else {
+			UserRejisterLogic URL = new UserRejisterLogic();
+			boolean isRejistered = URL.rejister(user);
+			
+			//登録成功なら
+			if(isRejistered) {
+				HttpSession ses = request.getSession();
+				ses.setAttribute("newUser", user);
+				
+				RequestDispatcher d = request.getRequestDispatcher("/WEB-INF/userRejisterResult.jsp");
+				d.forward(request, response);
+			}
+			else {
+				request.setAttribute("errorMsg", "ユーザー登録に失敗しました。再度やり直してください。");
 				
 				RequestDispatcher d = request.getRequestDispatcher("/Yahtzee/");
 				d.forward(request, response);
