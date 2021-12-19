@@ -17,7 +17,7 @@ public class UsersDAO {
 	private final String DB_USER = "sa";
 	private final String DB_PASS = "";
 	
-	//登録済みのユーザーか検索
+	//登録済みのユーザーか
 	public boolean isFind(User user) {
 		
 		Connection conn = null;
@@ -33,6 +33,7 @@ public class UsersDAO {
 			PS.setString(2, user.getPass());
 			
 			ResultSet RS = PS.executeQuery();
+			
 			//該当するユーザーが居たらtrueで返す
 			if(RS.next()) {
 				return true;
@@ -58,6 +59,7 @@ public class UsersDAO {
 		try {
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
+			
 			//連番のUSER_ID以外を指定
 			String sql = "INSERT INTO USERS(NAME, PASS) VALUES(?, ?)";
 			PreparedStatement PS = conn.prepareStatement(sql);
@@ -65,6 +67,7 @@ public class UsersDAO {
 			PS.setString(2, user.getPass());
 			
 			int result = PS.executeUpdate();
+			
 			//SQL文が成功していれば1
 			if(result != 1) {
 				return false;
@@ -81,3 +84,4 @@ public class UsersDAO {
 		return true;
 	}
 }
+
