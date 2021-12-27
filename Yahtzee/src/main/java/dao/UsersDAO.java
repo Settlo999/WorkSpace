@@ -17,7 +17,7 @@ public class UsersDAO {
 	private final String DB_USER = "sa";
 	private final String DB_PASS = "";
 	
-	//登録済みのユーザーか
+	//ユーザーが登録済みなら、IDをユーザーテーブルから取得してuserにset
 	public boolean isFind(User user) {
 		
 		Connection conn = null;
@@ -27,15 +27,17 @@ public class UsersDAO {
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 			
 			String sql = "SELECT * FROM USERS WHERE NAME = ? AND PASS = ?";
-			PreparedStatement PS = conn.prepareStatement(sql);
+			PreparedStatement pS = conn.prepareStatement(sql);
 			//SQL文中の?にユーザー名とパスワードを設定
-			PS.setString(1, user.getName());
-			PS.setString(2, user.getPass());
+			pS.setString(1, user.getName());
+			pS.setString(2, user.getPass());
 			
-			ResultSet RS = PS.executeQuery();
+			ResultSet rS = pS.executeQuery();
 			
-			//該当するユーザーが居たらtrueで返す
-			if(RS.next()) {
+			//該当するユーザーが居たらuserにユーザーIDをsetしてtrueで返す
+			if(rS.next()) {
+				int userId = rS.getInt("USER_ID");
+				user.setUserId(userId);
 				return true;
 			}
 			else {
@@ -62,11 +64,11 @@ public class UsersDAO {
 			
 			//連番のUSER_ID以外を指定
 			String sql = "INSERT INTO USERS(NAME, PASS) VALUES(?, ?)";
-			PreparedStatement PS = conn.prepareStatement(sql);
-			PS.setString(1, user.getName());
-			PS.setString(2, user.getPass());
+			PreparedStatement pS = conn.prepareStatement(sql);
+			pS.setString(1, user.getName());
+			pS.setString(2, user.getPass());
 			
-			int result = PS.executeUpdate();
+			int result = pS.executeUpdate();
 			
 			//SQL文が成功していれば1
 			if(result != 1) {
@@ -84,4 +86,3 @@ public class UsersDAO {
 		return true;
 	}
 }
-

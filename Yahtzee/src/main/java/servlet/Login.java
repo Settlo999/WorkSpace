@@ -35,10 +35,10 @@ public class Login extends HttpServlet {
 		
 		User user = new User(name, pass);
 		
-		//ユーザー登録なら
+		//通常ログインなら
 		if(isFirst == null) {
-			LoginLogic LL = new LoginLogic();
-			boolean isLogin = LL.execute(user);
+			LoginLogic loginLogic = new LoginLogic();
+			boolean isLogin = loginLogic.execute(user);
 			
 			if(isLogin) {
 				HttpSession ses = request.getSession();
@@ -48,16 +48,15 @@ public class Login extends HttpServlet {
 				d.forward(request, response);
 			}
 			else {
-				HttpSession ses = request.getSession();
-				ses.setAttribute("errorMsg", "ログインに失敗しました。再度やり直してください。");
+				request.setAttribute("errorMsg", "ログインに失敗しました。再度やり直してください。");
 				
-				RequestDispatcher d = request.getRequestDispatcher("/Yahtzee/");
+				RequestDispatcher d = request.getRequestDispatcher("index.jsp");
 				d.forward(request, response);
 			}	
 		}
 		else {
-			UserRejisterLogic URL = new UserRejisterLogic();
-			boolean isRejistered = URL.rejister(user);
+			UserRejisterLogic userRejisterLogic = new UserRejisterLogic();
+			boolean isRejistered = userRejisterLogic.rejister(user);
 			
 			//登録成功なら
 			if(isRejistered) {
@@ -70,7 +69,7 @@ public class Login extends HttpServlet {
 			else {
 				request.setAttribute("errorMsg", "ユーザー登録に失敗しました。再度やり直してください。");
 				
-				RequestDispatcher d = request.getRequestDispatcher("/Yahtzee/");
+				RequestDispatcher d = request.getRequestDispatcher("index.jsp");
 				d.forward(request, response);
 			}
 		}
