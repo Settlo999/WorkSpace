@@ -1,6 +1,7 @@
 package model;
 
 import dao.UsersDAO;
+import javaBeans.User;
 
 //ログイン処理
 public class LoginLogic {

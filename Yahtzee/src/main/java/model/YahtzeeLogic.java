@@ -5,10 +5,18 @@ import java.util.Random;
 //ヤッツィー処理クラス
 public class YahtzeeLogic {
 	
-	//サイコロを振る
-	public static int makeDice() {
+	//数字に対応して出目を作る
+	public static int[] makeDice(int[] diceList, String diceNumber) {
 		Random random = new Random();
-		int dice = random.nextInt(6) + 1;
-		return dice;
+		String[] nums = {"1", "2", "3", "4", "5"};
+		
+		for(int i = 0; i < 5; i++) {
+			if(diceNumber.contains(nums[i])) {
+				diceList[i] = random.nextInt(6) + 1;
+			}
+		}
+		
+		return diceList;
 	}
+
 }

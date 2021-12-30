@@ -1,6 +1,7 @@
 package model;
 
 import dao.UsersDAO;
+import javaBeans.User;
 //ユーザー登録処理
 public class UserRejisterLogic {
 	//UsersDAOに登録させる
