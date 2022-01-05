@@ -2,7 +2,7 @@ package javaBeans;
 
 import java.io.Serializable;
 
-//ゲーム詳細(ターン数、出目、得点、役ID、ゲームID) sessionスコープに保存する用
+//ゲーム詳細クラス ターン数、出目、得点、役ID、ゲームIDを保持 ※DB保存用
 public class GameDetail implements Serializable {
 	
 	private int turn;
@@ -31,12 +31,12 @@ public class GameDetail implements Serializable {
 	
 	public void setScore(int score) { this.score = score; }
 	
-	public int getrankId() { return rankId; }
+	public int getRankId() { return rankId; }
 	
-	public void setrankId(int rankId) { this.rankId = rankId; }
+	public void setRankId(int rankId) { this.rankId = rankId; }
 	
-	public int getgameId() { return gameId; }
+	public int getGameId() { return gameId; }
 	
-	public void setgameId(int gameId) { this.gameId = gameId; }
+	public void setGameId(int gameId) { this.gameId = gameId; }
 
 }

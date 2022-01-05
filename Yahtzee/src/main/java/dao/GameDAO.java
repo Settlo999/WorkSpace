@@ -14,7 +14,7 @@ public class GameDAO {
 	
 	//DB接続テンプレ
 	private final String DRIVER_NAME = "org.h2.Driver";
-	private final String JDBC_URL = "jdbc:h2:~/test";
+	private final String JDBC_URL = "jdbc:h2:tcp://localhost/~/test";
 	private final String DB_USER = "sa";
 	private final String DB_PASS = "";
 	
