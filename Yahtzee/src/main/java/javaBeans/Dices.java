@@ -3,18 +3,17 @@ package javaBeans;
 import java.io.Serializable;
 
 /*
- * 賽クラス 出目(int[])と振り直しの回数(int)を保持
+ * 賽クラス
  */
 public class Dices implements Serializable {
 	
 	//出目
 	private int[] izumeList;
 	//振り直しの回数
-	private int remakeDiceCount;
+	private int remakeDiceCount = 0;
 	
-	public Dices(int[] izumeList, int remakeDiceCount) { 
+	public Dices(int[] izumeList) {
 		this.izumeList = izumeList;
-		this.remakeDiceCount = remakeDiceCount;
 	}
 
 	public int[] getIzumeList() { return izumeList; }

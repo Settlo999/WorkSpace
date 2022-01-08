@@ -2,11 +2,14 @@ package javaBeans;
 
 import java.io.Serializable;
 
-//ユーザー(名前、パスワード、ユーザーID) sessionスコープに保存する用
+//ユーザークラス
 public class User implements Serializable {
 	
+	//ユーザー名
 	private String name;
+	//パスワード
 	private String pass;
+	//ユーザーID
 	private int userId;
 	
 	public User(String name, String pass) {

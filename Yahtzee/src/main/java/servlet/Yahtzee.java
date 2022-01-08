@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.GameDAO;
+import dao.GameDetailDAO;
 import javaBeans.Dices;
 import javaBeans.GameDetail;
 import javaBeans.Ranks;
@@ -38,22 +39,22 @@ public class Yahtzee extends HttpServlet {
 		gameDao.create(userId);
 		int gameId = gameDao.getGameId();
 		
-		//ターン(1)とゲームIDだけでゲーム詳細クラスを作成、セッションスコープに保存 ※出目、スコア、役IDは後に追加
-		GameDetail gameDetail = new GameDetail(1, "0", 0, 0, gameId);
+		//ゲーム詳細クラスを作成、ゲームIDをセットしてセッションスコープに保存 ※出目、スコア、役IDはdoPostで追加
+		GameDetail gameDetail = new GameDetail();
+		gameDetail.setGameId(gameId);
 		ses.setAttribute("gameDetail", gameDetail);
 		
-		//記帳管理クラスを作成してセッションスコープに保存
+		//記帳クラスを作成してセッションスコープに保存
 		Ranks ranks = new Ranks();
 		ses.setAttribute("ranks", ranks);
 		
-		//点数管理クラスを作成してセッションスコープに保存
-		Scores scores = new Scores(0, 0, false);
+		//点数クラスを作成してセッションスコープに保存
+		Scores scores = new Scores();
 		ses.setAttribute("scores", scores);
 		
-		//初回の出目と振り直しの回数(0)で賽クラスを作成してセッションスコープに保存
-		int[] izumeList = new int[5];
-		izumeList = YahtzeeLogic.makeIzume(izumeList, "12345");
-		Dices dices = new Dices(izumeList, 0);
+		//初回の出目で賽クラスを作成、セッションスコープに保存
+		int [] izumeList = YahtzeeLogic.makeFirstIzume();
+		Dices dices = new Dices(izumeList);
 		ses.setAttribute("dices", dices);
 		
 		//初回の出目を基に点数表示クラスを作成してセッションスコープに保存
@@ -69,10 +70,10 @@ public class Yahtzee extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		//振り直し用の番号の配列(String[])をjspのフォームから取得
-		String[] numsList = request.getParameterValues("remake");
+		String[] numList = request.getParameterValues("remake");
 		
-		//記帳用の役名(String)をjspのフォームから取得
-		String rank = request.getParameter("receipt");
+		//記帳用の役ID(String)をjspのフォームから取得
+		String rankId = request.getParameter("receipt");
 		
 		HttpSession ses = request.getSession();
 		
@@ -84,16 +85,9 @@ public class Yahtzee extends HttpServlet {
 		Suggests suggests = (Suggests) ses.getAttribute("suggests");
 		
 		//振り直し
-		if(numsList != null) {
-			
-			//makeDice用にString[]からStringに
-			String numsForMakeIzume = "";
-			for(int i = 0; i < numsList.length; i++) {
-				numsForMakeIzume += numsList[i];
-			}
-			
+		if(numList != null) {
 			//出目を更新
-			YahtzeeLogic.makeIzume(izumeList, numsForMakeIzume);
+			izumeList = YahtzeeLogic.makeIzume(izumeList, numList);
 			dices.setIzumeList(izumeList);
 			
 			//点数予測を更新
@@ -104,63 +98,61 @@ public class Yahtzee extends HttpServlet {
 		}
 		
 		//記帳
-		if(rank != null) {
-			
+		if(rankId != null) {
 			//諸々用意
 			Ranks ranks = (Ranks) ses.getAttribute("ranks");
 			Scores scores = (Scores) ses.getAttribute("scores");
 			GameDetail gameDetail = (GameDetail) ses.getAttribute("gameDetail");
-//			GameDetailDAO gameDetailDAO = new GameDetailDAO();
+			GameDetailDAO gameDetailDAO = new GameDetailDAO();
 			
 			//点数取得
-			int score = YahtzeeLogic.makeScore(rank, izumeList);
+			int score = YahtzeeLogic.makeScore(rankId, izumeList);
 			
-			if("one".equals(rank)) {
+			if("1".equals(rankId)) {
 				//1～6の目のﾎﾞｰﾅｽ計算用に加算
 				scores.setSumOneToSix(scores.getSumOneToSix() + score);
-				ranks.setOne("");
-//				gameDetail.setRankId(1);
+				ranks.setOne(score);
 			}
-			if("two".equals(rank)) {
+			if("2".equals(rankId)) {
 				scores.setSumOneToSix(scores.getSumOneToSix() + score);
-				ranks.setTwo("");
+				ranks.setTwo(score);
 			}
-			if("three".equals(rank)) {
+			if("3".equals(rankId)) {
 				scores.setSumOneToSix(scores.getSumOneToSix() + score);
-				ranks.setThree("");
+				ranks.setThree(score);
 			}
-			if("four".equals(rank)) {
+			if("4".equals(rankId)) {
 				scores.setSumOneToSix(scores.getSumOneToSix() + score);
-				ranks.setFour("");
+				ranks.setFour(score);
 			}
-			if("five".equals(rank)) {
+			if("5".equals(rankId)) {
 				scores.setSumOneToSix(scores.getSumOneToSix() + score);
-				ranks.setFive("");
+				ranks.setFive(score);
 			}
-			if("six".equals(rank)) {
+			if("6".equals(rankId)) {
 				scores.setSumOneToSix(scores.getSumOneToSix() + score);
-				ranks.setSix("");
+				ranks.setSix(score);
 			}
-			if("chance".equals(rank)) {
-				ranks.setChance("");
+			if("7".equals(rankId)) {
+				ranks.setChance(score);
 			}
-			if("threeCard".equals(rank)) {
-				ranks.setThreeCard("");
+			if("8".equals(rankId)) {
+				ranks.setThreeCard(score);
 			}
-			if("fourCard".equals(rank)) {
-				ranks.setFourCard("");
+			if("9".equals(rankId)) {
+				ranks.setFourCard(score);
 			}
-			if("fullHouse".equals(rank)) {
-				ranks.setFullHouse("");
+			if("10".equals(rankId)) {
+				ranks.setFullHouse(score);
 			}
-			if("smallStraight".equals(rank)) {
-				ranks.setSmallStraight("");
+			if("11".equals(rankId)) {
+				ranks.setSmallStraight(score);
 			}
-			if("largeStraight".equals(rank)) {
-				ranks.setLargeStraight("");
+			if("12".equals(rankId)) {
+				ranks.setLargeStraight(score);
 			}
-			if("yahtzee".equals(rank)) {
-				ranks.setYahtzee("");
+			if("13".equals(rankId)) {
+				ranks.setYahtzee(score);
 			}
 			
 			//総得点に加算
@@ -172,19 +164,16 @@ public class Yahtzee extends HttpServlet {
 				scores.setIsBonus(true);
 			}
 			
-			//String[]からStringに
-//			String izume = "";
-//			for(int i = 0; i < izumeList.length; i++) {
-//				izume += izumeList[i];
-//			}
+			//dao処理
+			gameDetail.setIzumeList(izumeList);
+			gameDetail.setScore(score);
+			gameDetail.setRankId(rankId);
 			
-//			gameDetail.setIzume(izume);
-//			gameDetail.setScore(score);
-			
-			//dao処理(未)
-			
+			gameDetailDAO.create(gameDetail);
+						
 			//次のターンの出目を作成、振り直し回数リセット
-			dices.setIzumeList(YahtzeeLogic.makeIzume(izumeList, "12345"));
+			izumeList = YahtzeeLogic.makeFirstIzume();
+			dices.setIzumeList(izumeList);
 			dices.setRemakeDiceCount(0);
 			
 			//点数予測を作成
@@ -192,6 +181,11 @@ public class Yahtzee extends HttpServlet {
 			
 			//ターン数を+1
 			gameDetail.setTurn(gameDetail.getTurn() + 1);
+			
+			if(gameDetail.getTurn() == 14) {
+				RequestDispatcher d = request.getRequestDispatcher("/WEB-INF/yahtzeeResult.jsp");
+				d.forward(request, response);
+			}
 		}
 		
 		RequestDispatcher d = request.getRequestDispatcher("/WEB-INF/yahtzee.jsp");

@@ -3,7 +3,7 @@ package javaBeans;
 import java.io.Serializable;
 
 /*
- * 点数表示クラス 点数(XX点)をString[]で保持
+ * 点数表示クラス
  */
 public class Suggests implements Serializable {
 	//点数の配列
@@ -12,12 +12,6 @@ public class Suggests implements Serializable {
 	public Suggests(String[] suggestList) {
 		this.suggestList = suggestList;
 	}
-	
-	public Suggests() {
-		
-	}
-
-
 
 	public String[] getSuggestList() { return suggestList; }
 

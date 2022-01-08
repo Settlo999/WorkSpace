@@ -3,22 +3,16 @@ package javaBeans;
 import java.io.Serializable;
 
 /*
- * 点数管理クラス 総得点・1～6の目の合計点をint、ﾎﾞｰﾅｽかをbooleanで保持
+ * 点数クラス
  */
 public class Scores implements Serializable {
 	
 	//総得点
-	private int sumAll;
+	private int sumAll = 0;
 	//1～6の目の合計点
-	private int sumOneToSix;
+	private int sumOneToSix = 0;
 	//ﾎﾞｰﾅｽか
-	private boolean isBonus;
-	
-	public Scores(int sumAll, int sumOneToSix, boolean isBonus) {
-		this.sumAll = sumAll;
-		this.sumOneToSix = sumOneToSix;
-		this.isBonus = isBonus;
-	}
+	private boolean isBonus = false;
 
 	public int getSumAll() { return sumAll; }
 	

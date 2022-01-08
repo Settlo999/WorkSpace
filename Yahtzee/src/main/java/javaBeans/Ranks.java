@@ -3,87 +3,87 @@ package javaBeans;
 import java.io.Serializable;
 
 /*
- * 記帳管理クラス 記帳状況をnullかStringで保持
+ * 記帳クラス
  */
 public class Ranks implements Serializable {
 	
-	//1の目
-	private String one;
+	//1の目の得点
+	private int one = 99;
 	//2の目
-	private String two;
+	private int two = 99;
 	//3の目
-	private String three;
+	private int three = 99;
 	//4の目
-	private String four;
+	private int four = 99;
 	//5の目
-	private String five;
+	private int five = 99;
 	//6の目
-	private String six;
+	private int six = 99;
 	//チャンス
-	private String chance;
+	private int chance = 99;
 	//3カード
-	private String threeCard;
+	private int threeCard = 99;
 	//4カード
-	private String fourCard;
+	private int fourCard = 99;
 	//フルハウス
-	private String fullHouse;
+	private int fullHouse = 99;
 	//小さいストレート
-	private String smallStraight;
+	private int smallStraight = 99;
 	//大きいストレート
-	private String largeStraight;
+	private int largeStraight = 99;
 	//ヨット
-	private String yahtzee;
+	private int yahtzee = 99;
 	
-	public String getOne() { return one; }
+	public int getOne() { return one; }
 	
-	public void setOne(String one) { this.one = one; }
+	public void setOne(int one) { this.one = one; }
 	
-	public String getTwo() { return two; }
+	public int getTwo() { return two; }
 	
-	public void setTwo(String two) { this.two = two; }
+	public void setTwo(int two) { this.two = two; }
 	
-	public String getThree() { return three; }
+	public int getThree() { return three; }
 	
-	public void setThree(String three) { this.three = three; }
+	public void setThree(int three) { this.three = three; }
 	
-	public String getFour() { return four; }
+	public int getFour() { return four; }
 	
-	public void setFour(String four) { this.four = four; }
+	public void setFour(int four) { this.four = four; }
 	
-	public String getFive() { return five; }
+	public int getFive() { return five; }
 	
-	public void setFive(String five) { this.five = five; }
+	public void setFive(int five) { this.five = five; }
 	
-	public String getSix() { return six; }
+	public int getSix() { return six; }
 	
-	public void setSix(String six) { this.six = six; }
+	public void setSix(int six) { this.six = six; }
 	
-	public String getChance() { return chance; }
+	public int getChance() { return chance; }
 	
-	public void setChance(String chance) { this.chance = chance; }
+	public void setChance(int chance) { this.chance = chance; }
 	
-	public String getThreeCard() { return threeCard; }
+	public int getThreeCard() { return threeCard; }
 	
-	public void setThreeCard(String threeCard) { this.threeCard = threeCard; }
+	public void setThreeCard(int threeCard) { this.threeCard = threeCard; }
 	
-	public String getFourCard() { return fourCard; }
+	public int getFourCard() { return fourCard; }
 	
-	public void setFourCard(String fourCard) { this.fourCard = fourCard; }
+	public void setFourCard(int fourCard) { this.fourCard = fourCard; }
 	
-	public String getFullHouse() { return fullHouse; }
+	public int getFullHouse() { return fullHouse; }
 	
-	public void setFullHouse(String fullHouse) { this.fullHouse = fullHouse; }
+	public void setFullHouse(int fullHouse) { this.fullHouse = fullHouse; }
 	
-	public String getSmallStraight() { return smallStraight; }
+	public int getSmallStraight() { return smallStraight; }
 	
-	public void setSmallStraight(String smallStraight) { this.smallStraight = smallStraight; }
+	public void setSmallStraight(int smallStraight) { this.smallStraight = smallStraight; }
 	
-	public String getLargeStraight() { return largeStraight; }
+	public int getLargeStraight() { return largeStraight; }
 	
-	public void setLargeStraight(String largeStraight) { this.largeStraight = largeStraight; }
+	public void setLargeStraight(int largeStraight) { this.largeStraight = largeStraight; }
 	
-	public String getYahtzee() { return yahtzee; }
+	public int getYahtzee() { return yahtzee; }
 	
-	public void setYahtzee(String yahtzee) { this.yahtzee = yahtzee; }
+	public void setYahtzee(int yahtzee) { this.yahtzee = yahtzee; }
 	
 }

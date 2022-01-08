@@ -16,8 +16,23 @@ public class GameDetailDAO {
 	private final String DB_USER = "sa";
 	private final String DB_PASS = "";
 	
-	//ゲーム詳細テーブルにターン数・出目・得点・役ID・ゲームIDを追加
+	/*
+	 * ゲーム詳細テーブルにターン数・出目・得点・役ID・ゲームIDを追加
+	 * @param gameDetail ゲーム詳細
+	 * @return boolean trueかfalse
+	 */
 	public boolean create(GameDetail gameDetail) {
+		int turn = gameDetail.getTurn();
+
+		String izume = "";
+		int[] izumeList = gameDetail.getIzumeList();
+		for(int i = 0; i < 5; i++) {
+			izume += String.valueOf(izumeList[i]);
+		}
+		
+		int score = gameDetail.getScore();
+		int rankId = Integer.parseInt(gameDetail.getRankId());
+		int gameId = gameDetail.getGameId();
 		
 		Connection conn = null;
 		
@@ -27,7 +42,11 @@ public class GameDetailDAO {
 			
 			String sql = "INSERT INTO GAME_DETAIL VALUES(?, ?, ?, ?, ?)";
 			PreparedStatement pS = conn.prepareStatement(sql);
-			pS.setInt(1, 1);
+			pS.setInt(1, turn);
+			pS.setString(2, izume);
+			pS.setInt(3, score);
+			pS.setInt(4, rankId);
+			pS.setInt(5, gameId);
 			int result = pS.executeUpdate();
 			
 			//追加処理が完了したかチェック。※SQL文が成功していればresult = 1

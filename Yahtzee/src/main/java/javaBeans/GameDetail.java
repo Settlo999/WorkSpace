@@ -2,38 +2,35 @@ package javaBeans;
 
 import java.io.Serializable;
 
-//ゲーム詳細クラス ターン数、出目、得点、役ID、ゲームIDを保持 ※DB保存用
+//ゲーム詳細クラス ※DB保存用
 public class GameDetail implements Serializable {
 	
-	private int turn;
-	private String izume;
+	//ターン数
+	private int turn = 1;
+	//出目
+	private int[] izumeList;
+	//得点
 	private int score;
-	private int rankId;
+	//役ID
+	private String rankId;
+	//ゲームID
 	private int gameId;
-	
-	public GameDetail(int turn, String izume, int score, int rankId, int gameId) {
-		this.turn = turn;
-		this.izume = izume;
-		this.score = score;
-		this.rankId = rankId;
-		this.gameId = gameId;
-	}
 	
 	public int getTurn() { return turn; }
 	
 	public void setTurn(int turn) { this.turn = turn; }
 	
-	public String getIzume() { return izume; }
+	public int[] getIzumeList() { return izumeList; }
 	
-	public void setIzume(String izume) { this.izume = izume; }
+	public void setIzumeList(int[] izume) { this.izumeList = izume; }
 	
 	public int getScore() { return score; }
 	
 	public void setScore(int score) { this.score = score; }
 	
-	public int getRankId() { return rankId; }
+	public String getRankId() { return rankId; }
 	
-	public void setRankId(int rankId) { this.rankId = rankId; }
+	public void setRankId(String rankId) { this.rankId = rankId; }
 	
 	public int getGameId() { return gameId; }
 	
