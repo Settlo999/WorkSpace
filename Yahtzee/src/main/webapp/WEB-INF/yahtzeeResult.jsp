@@ -2,11 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@page import="javaBeans.Scores" %>
 <%@page import="javaBeans.Ranks" %>
+<%@page import="javaBeans.GameDetail" %>
 
 <%
 Scores scores = (Scores) session.getAttribute("scores");
 Ranks ranks = (Ranks) session.getAttribute("ranks");
-
+GameDetail gameDetail = (GameDetail) session.getAttribute("gameDetail");
 %>
 
 <!-- ヤッツィー結果画面 -->
@@ -17,6 +18,7 @@ Ranks ranks = (Ranks) session.getAttribute("ranks");
 <title>結果です</title>
 </head>
 <body>
+<p>ゲームID: <%= gameDetail.getGameId() %><p>
 <p>総得点 <%= scores.getSumAll() %>点<p>
 <p>
 1の目: <%= ranks.getOne() %>点<br>

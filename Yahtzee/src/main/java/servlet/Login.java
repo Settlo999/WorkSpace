@@ -14,7 +14,9 @@ import javaBeans.User;
 import model.LoginLogic;
 import model.UserRejisterLogic;
 
-//ログイン処理用のコントローラー
+/*
+ * ログイン処理用のコントローラー
+ */
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;

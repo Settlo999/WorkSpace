@@ -3,9 +3,13 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javaBeans.GameDetail;
+import javaBeans.Log;
 
 //ゲーム詳細テーブルを扱うクラス
 public class GameDetailDAO {
@@ -23,7 +27,7 @@ public class GameDetailDAO {
 	 */
 	public boolean create(GameDetail gameDetail) {
 		int turn = gameDetail.getTurn();
-
+		
 		String izume = "";
 		int[] izumeList = gameDetail.getIzumeList();
 		for(int i = 0; i < 5; i++) {
@@ -63,5 +67,58 @@ public class GameDetailDAO {
 			return false;
 		}
 		
+	}
+	
+	/*
+	 * テーブルの内容を全て取得する
+	 */
+	public List<Log> getAll () {
+		
+		Connection conn = null;
+		List<Log> logList = new ArrayList<Log>();
+		
+		try {
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
+			
+			String sql = "SELECT TURN, IZUME, SCORE, RANK_ID, GAME_ID FROM GAME_DETAIL";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			
+			ResultSet rs = pStmt.executeQuery();
+			
+			while(rs.next()) {
+				int turn = rs.getInt("TURN");
+				String izume = rs.getString("IZUME");
+				int score = rs.getInt("SCORE");
+				int rankId = rs.getInt("RANK_ID");
+				int gameId = rs.getInt("GAME_ID");
+				
+				Log log = new Log();
+				log.setTurn(turn);
+				log.setIzume(izume);
+				log.setScore(score);
+				log.setRankId(rankId);
+				log.setGameId(gameId);
+				
+				logList.add(log);
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+		
+		return logList;
 	}
 }

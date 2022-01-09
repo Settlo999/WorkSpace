@@ -3,7 +3,7 @@ package model;
 import java.util.Random;
 
 /*
- * ヤッツィー処理クラス
+ * ヨット処理クラス ※Singleton
  */
 public class YahtzeeLogic {
 	
@@ -21,7 +21,7 @@ public class YahtzeeLogic {
 	 * 初回の出目を作成して返す
 	 * @return int[] izumeList 出目
 	 */
-	public static int[] makeFirstIzume() {
+	public int[] makeFirstIzume() {
 		int[] izumeList = new int[5];
 		
 		Random random = new Random();
@@ -38,7 +38,7 @@ public class YahtzeeLogic {
 	 * @param String[] numList 1から5までの数字の文字列
 	 * @return int[] izumeList 作り直した出目
 	 */
-	public static int[] makeIzume(int[] izumeList, String[] numList) {
+	public int[] makeIzume(int[] izumeList, String[] numList) {
 		//String[]からStringに
 		String numsForMakeIzume = "";
 		for(int i = 0; i < numList.length; i++) {
@@ -63,7 +63,7 @@ public class YahtzeeLogic {
 	 * @param int[] izumeList 出目
 	 * @return int score 得点
 	 */
-	public static int makeScore(String rankId, int[] izumeList) {
+	public int makeScore(String rankId, int[] izumeList) {
 		//目毎のカウントの配列
 		int[] numCounts = {0, 0, 0, 0, 0, 0};
 		
@@ -181,19 +181,19 @@ public class YahtzeeLogic {
 	public static String[] suggest(int[] izumeList) {
 		String[] suggestList = new String[13];
 		
-		suggestList[0] = String.valueOf(makeScore("1", izumeList)) + "点";
-		suggestList[1] = String.valueOf(makeScore("2", izumeList)) + "点";
-		suggestList[2] = String.valueOf(makeScore("3", izumeList)) + "点";
-		suggestList[3] = String.valueOf(makeScore("4", izumeList)) + "点";
-		suggestList[4] = String.valueOf(makeScore("5", izumeList)) + "点";
-		suggestList[5] = String.valueOf(makeScore("6", izumeList)) + "点";
-		suggestList[6] = String.valueOf(makeScore("7", izumeList)) + "点";
-		suggestList[7] = String.valueOf(makeScore("8", izumeList)) + "点";
-		suggestList[8] = String.valueOf(makeScore("9", izumeList)) + "点";
-		suggestList[9] = String.valueOf(makeScore("10", izumeList)) + "点";
-		suggestList[10] = String.valueOf(makeScore("11", izumeList)) + "点";
-		suggestList[11] = String.valueOf(makeScore("12", izumeList)) + "点";
-		suggestList[12] = String.valueOf(makeScore("13", izumeList)) + "点";
+		suggestList[0] = String.valueOf(yahtzeeLogic.makeScore("1", izumeList)) + "点";
+		suggestList[1] = String.valueOf(yahtzeeLogic.makeScore("2", izumeList)) + "点";
+		suggestList[2] = String.valueOf(yahtzeeLogic.makeScore("3", izumeList)) + "点";
+		suggestList[3] = String.valueOf(yahtzeeLogic.makeScore("4", izumeList)) + "点";
+		suggestList[4] = String.valueOf(yahtzeeLogic.makeScore("5", izumeList)) + "点";
+		suggestList[5] = String.valueOf(yahtzeeLogic.makeScore("6", izumeList)) + "点";
+		suggestList[6] = String.valueOf(yahtzeeLogic.makeScore("7", izumeList)) + "点";
+		suggestList[7] = String.valueOf(yahtzeeLogic.makeScore("8", izumeList)) + "点";
+		suggestList[8] = String.valueOf(yahtzeeLogic.makeScore("9", izumeList)) + "点";
+		suggestList[9] = String.valueOf(yahtzeeLogic.makeScore("10", izumeList)) + "点";
+		suggestList[10] = String.valueOf(yahtzeeLogic.makeScore("11", izumeList)) + "点";
+		suggestList[11] = String.valueOf(yahtzeeLogic.makeScore("12", izumeList)) + "点";
+		suggestList[12] = String.valueOf(yahtzeeLogic.makeScore("13", izumeList)) + "点";
 		
 		return suggestList;
 	}

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import dao.GameDAO;
 import dao.GameDetailDAO;
-import javaBeans.Dices;
+import javaBeans.Dice;
 import javaBeans.GameDetail;
 import javaBeans.Ranks;
 import javaBeans.Scores;
@@ -52,12 +52,13 @@ public class Yahtzee extends HttpServlet {
 		Scores scores = new Scores();
 		ses.setAttribute("scores", scores);
 		
-		//初回の出目で賽クラスを作成、セッションスコープに保存
-		int [] izumeList = YahtzeeLogic.makeFirstIzume();
-		Dices dices = new Dices(izumeList);
-		ses.setAttribute("dices", dices);
+		//ヨット処理クラス、初回の出目、それを基にした賽クラスを作成してセッションスコープに保存
+		YahtzeeLogic yahtzeeLogic = YahtzeeLogic.getInstance();
+		int [] izumeList = yahtzeeLogic.makeFirstIzume();
+		Dice dice = new Dice(izumeList);
+		ses.setAttribute("dice", dice);
 		
-		//初回の出目を基に点数表示クラスを作成してセッションスコープに保存
+		//初回の出目を基に点数表示クラスを作成、セッションスコープに保存
 		String[] suggestList = YahtzeeLogic.suggest(izumeList);
 		Suggests suggests = new Suggests(suggestList);
 		ses.setAttribute("suggests", suggests);
@@ -78,23 +79,25 @@ public class Yahtzee extends HttpServlet {
 		HttpSession ses = request.getSession();
 		
 		//出目をセッションスコープから取得
-		Dices dices = (Dices) ses.getAttribute("dices");
-		int[] izumeList = dices.getIzumeList();
+		Dice dice = (Dice) ses.getAttribute("dice");
+		int[] izumeList = dice.getIzumeList();
 		
 		//点数表示をセッションスコープから取得
 		Suggests suggests = (Suggests) ses.getAttribute("suggests");
 		
+		YahtzeeLogic yahtzeeLogic = YahtzeeLogic.getInstance();
+		
 		//振り直し
 		if(numList != null) {
 			//出目を更新
-			izumeList = YahtzeeLogic.makeIzume(izumeList, numList);
-			dices.setIzumeList(izumeList);
+			izumeList = yahtzeeLogic.makeIzume(izumeList, numList);
+			dice.setIzumeList(izumeList);
 			
 			//点数予測を更新
 			suggests.setSuggestList(YahtzeeLogic.suggest(izumeList));
 			
 			//振り直しの回数を+1
-			dices.setRemakeDiceCount(dices.getRemakeDiceCount() + 1);
+			dice.setRemakeDiceCount(dice.getRemakeDiceCount() + 1);
 		}
 		
 		//記帳
@@ -106,7 +109,7 @@ public class Yahtzee extends HttpServlet {
 			GameDetailDAO gameDetailDAO = new GameDetailDAO();
 			
 			//点数取得
-			int score = YahtzeeLogic.makeScore(rankId, izumeList);
+			int score = yahtzeeLogic.makeScore(rankId, izumeList);
 			
 			if("1".equals(rankId)) {
 				//1～6の目のﾎﾞｰﾅｽ計算用に加算
@@ -172,9 +175,9 @@ public class Yahtzee extends HttpServlet {
 			gameDetailDAO.create(gameDetail);
 						
 			//次のターンの出目を作成、振り直し回数リセット
-			izumeList = YahtzeeLogic.makeFirstIzume();
-			dices.setIzumeList(izumeList);
-			dices.setRemakeDiceCount(0);
+			izumeList = yahtzeeLogic.makeFirstIzume();
+			dice.setIzumeList(izumeList);
+			dice.setRemakeDiceCount(0);
 			
 			//点数予測を作成
 			suggests.setSuggestList(YahtzeeLogic.suggest(izumeList));

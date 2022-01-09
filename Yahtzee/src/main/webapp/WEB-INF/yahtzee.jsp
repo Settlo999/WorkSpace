@@ -3,16 +3,16 @@
     pageEncoding="UTF-8"%>
     
 <%@page import="javaBeans.GameDetail"%>
-<%@page import="javaBeans.Dices"%>
+<%@page import="javaBeans.Dice"%>
 <%@page import="javaBeans.Ranks"%>
 <%@page import="javaBeans.Scores"%>
 <%@page import="javaBeans.Suggests"%>
     
 <%
 GameDetail gameDetail = (GameDetail) session.getAttribute("gameDetail");
-Dices dices = (Dices) session.getAttribute("dices");
-int[] izumeList = dices.getIzumeList();
-int remakeDiceCount = dices.getRemakeDiceCount();
+Dice dice = (Dice) session.getAttribute("dice");
+int[] izumeList = dice.getIzumeList();
+int remakeDiceCount = dice.getRemakeDiceCount();
 Ranks ranks = (Ranks) session.getAttribute("ranks");
 Scores scores = (Scores) session.getAttribute("scores");
 Suggests suggests = (Suggests) session.getAttribute("suggests");
