@@ -2,6 +2,10 @@ package model;
 
 import java.util.Random;
 
+import dao.GameDAO;
+import dao.GameDetailDAO;
+import javaBeans.GameDetail;
+
 /*
  * ヨット処理クラス ※Singleton
  */
@@ -15,6 +19,27 @@ public class YahtzeeLogic {
 	
 	public static YahtzeeLogic getInstance() {
 		return yahtzeeLogic;
+	}
+	
+	/*
+	 * ユーザーIDを受け取ってGameDAOに(ゲームID, ユーザーID)で追加させ、ゲームIDを取得して返す
+	 * @param userId ユーザーID
+	 * @return gameId ゲームID
+	 */
+	public int addGame(int userId) {
+		GameDAO gameDao = GameDAO.getInstance();
+		gameDao.create(userId);
+		int gameId = gameDao.getGameId();
+		
+		return gameId;
+	}
+	
+	/*
+	 * ゲーム詳細を受け取って、GameDetailDAOに追加させる
+	 */
+	public void addGameDetail(GameDetail gameDetail) {
+		GameDetailDAO gameDetailDAO = GameDetailDAO.getInstance();
+		gameDetailDAO.create(gameDetail);
 	}
 	
 	/*
@@ -33,9 +58,9 @@ public class YahtzeeLogic {
 	}
 	
 	/*
-	 * int[]とString[]を受け取って、指定された配列の出目を作り直す
+	 * 出目と数字の文字列を受け取って、出目を作り直して返す
 	 * @param int[] izumeList 出目
-	 * @param String[] numList 1から5までの数字の文字列
+	 * @param String[] numList 数字の文字列
 	 * @return int[] izumeList 作り直した出目
 	 */
 	public int[] makeIzume(int[] izumeList, String[] numList) {
@@ -177,7 +202,7 @@ public class YahtzeeLogic {
 		
 	}
 	
-	//出目を受け取って、役順に得点をString[]で返す
+	//出目を受け取って、役と得点をString[]で返す
 	public static String[] suggest(int[] izumeList) {
 		String[] suggestList = new String[13];
 		

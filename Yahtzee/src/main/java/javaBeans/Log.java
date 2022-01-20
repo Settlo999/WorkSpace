@@ -13,10 +13,8 @@ public class Log implements Serializable {
 	private String izume;
 	//得点
 	private int score;
-	//役ID
-	private int rankId;
-	//ゲームID
-	private int gameId;
+	//役名
+	private String name;
 	
 	public int getTurn() { return turn; }
 	
@@ -30,12 +28,8 @@ public class Log implements Serializable {
 	
 	public void setScore(int score) { this.score = score; }
 	
-	public int getRankId() { return rankId; }
+	public String getName() { return name; }
 	
-	public void setRankId(int rankId) { this.rankId = rankId; }
-	
-	public int getGameId() { return gameId; }
-	
-	public void setGameId(int gameId) { this.gameId = gameId; }
+	public void setName(String name) { this.name = name; }
 	
 }

@@ -11,6 +11,16 @@ import javaBeans.User;
 //ユーザーテーブルを扱うクラス
 public class UsersDAO {
 	
+	//Singleton
+	private static UsersDAO usersDAO = new UsersDAO();
+	
+	private UsersDAO() {
+	}
+	
+	public static UsersDAO getInstance() {
+		return usersDAO;
+	}
+	
 	//DB接続テンプレ
 	private final String DRIVER_NAME = "org.h2.Driver";
 	private final String JDBC_URL = "jdbc:h2:tcp://localhost/~/test";

@@ -6,7 +6,6 @@
 <%@page import="javaBeans.Dice"%>
 <%@page import="javaBeans.Ranks"%>
 <%@page import="javaBeans.Scores"%>
-<%@page import="javaBeans.Suggests"%>
     
 <%
 GameDetail gameDetail = (GameDetail) session.getAttribute("gameDetail");
@@ -15,8 +14,7 @@ int[] izumeList = dice.getIzumeList();
 int remakeDiceCount = dice.getRemakeDiceCount();
 Ranks ranks = (Ranks) session.getAttribute("ranks");
 Scores scores = (Scores) session.getAttribute("scores");
-Suggests suggests = (Suggests) session.getAttribute("suggests");
-String[] suggestList = suggests.getSuggestList();
+String[] suggestList = (String[]) session.getAttribute("suggestList");
 %>
     
 <!-- ヤッツィー画面 -->

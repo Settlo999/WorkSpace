@@ -5,9 +5,21 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 //ゲームテーブルを扱うクラス
 public class GameDAO {
+	
+	//Singleton
+	private static GameDAO gameDAO = new GameDAO();
+	
+	private GameDAO() {
+	}
+	
+	public static GameDAO getInstance() {
+		return gameDAO;
+	}
 	
 	//ゲームID
 	private int gameId;
@@ -62,6 +74,50 @@ public class GameDAO {
 			return false;
 		}
 		
+	}
+	
+	/*
+	 * ユーザーIDを受け取って、プレイしたゲームのIDをListで返す
+	 * @param ユーザーID
+	 * @return List<Integer> ゲームIDのリスト
+	 */
+	public List<Integer> findGame(int userId){
+		
+		List<Integer> gameIdList = new ArrayList<Integer>();
+		Connection conn = null;
+		
+		try {
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
+			
+			String sql = "SELECT GAME_ID FROM GAME WHERE USER_ID = " + String.valueOf(userId);
+			
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				int gameId = resultSet.getInt("GAME_ID");
+				gameIdList.add(gameId);
+			}
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+		
+		return gameIdList;
 	}
 	
 	public int getGameId() { return gameId; }

@@ -13,7 +13,17 @@ import javaBeans.Log;
 
 //ゲーム詳細テーブルを扱うクラス
 public class GameDetailDAO {
-		
+	
+	//Singleton
+	private static GameDetailDAO gameDetailDAO = new GameDetailDAO();
+	
+	private GameDetailDAO() {
+	}
+	
+	public static GameDetailDAO getInstance() {
+		return gameDetailDAO;
+	}
+	
 	//DB接続テンプレ
 	private final String DRIVER_NAME = "org.h2.Driver";
 	private final String JDBC_URL = "jdbc:h2:tcp://localhost/~/test";
@@ -21,7 +31,7 @@ public class GameDetailDAO {
 	private final String DB_PASS = "";
 	
 	/*
-	 * ゲーム詳細テーブルにターン数・出目・得点・役ID・ゲームIDを追加
+	 * ゲーム詳細テーブルにターン数・出目・得点・役ID・ゲームIDを追加して成否を返す
 	 * @param gameDetail ゲーム詳細
 	 * @return boolean trueかfalse
 	 */
@@ -58,47 +68,105 @@ public class GameDetailDAO {
 				return false;
 			}
 			
-			return true;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		} finally {
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
 		}
 		
+		return true;
 	}
 	
 	/*
-	 * テーブルの内容を全て取得する
+	 * ゲームIDのリストを受け取って、ゲーム毎の総得点と結び付けてリストで返す
+	 * @param List<Integer> gameIdList  ゲームIDのリスト
+	 * @return gameAndScoreList ゲームIDと総得点の組み合わせのリスト
 	 */
-	public List<Log> getAll () {
-		
+	public List<String> getGameAndScore(List<Integer> gameIdList) {
+		List<String> gameAndScoreList = new ArrayList<String>();
 		Connection conn = null;
-		List<Log> logList = new ArrayList<Log>();
 		
 		try {
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 			
-			String sql = "SELECT TURN, IZUME, SCORE, RANK_ID, GAME_ID FROM GAME_DETAIL";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+			for (int i = 0; i < gameIdList.size(); i++) {
+				String gameId = String.valueOf(gameIdList.get(i));
+				
+				String sql = "SELECT SUM(SCORE) FROM GAME_DETAIL WHERE GAME_ID = " + gameId;
+				
+				PreparedStatement preparedStatement = conn.prepareStatement(sql);
+				ResultSet resultSet = preparedStatement.executeQuery();
+				
+				while(resultSet.next()) {
+					String sumScore = String.valueOf(resultSet.getInt("SUM(SCORE)"));
+					gameAndScoreList.add(gameId + ": " + sumScore + "点");
+				}
+			}
 			
-			ResultSet rs = pStmt.executeQuery();
+		} catch (ClassNotFoundException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		} finally {
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+		
+		return gameAndScoreList;
+	}
+	
+	/*
+	 * ゲームIDを受け取り、そのゲームの詳細を一覧で返す
+	 * @param int gameId ゲームID
+	 * @return List<Log> ゲームの詳細一覧
+	 */
+	public List<Log> getLog (String gameId) {
+		List<Log> logList = new ArrayList<Log>();
+		
+		Connection conn = null;
+		
+		try {
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 			
-			while(rs.next()) {
-				int turn = rs.getInt("TURN");
-				String izume = rs.getString("IZUME");
-				int score = rs.getInt("SCORE");
-				int rankId = rs.getInt("RANK_ID");
-				int gameId = rs.getInt("GAME_ID");
+			String sql = "SELECT TURN, IZUME, SCORE, NAME FROM GAME_DETAIL " +
+			"JOIN RANK ON GAME_DETAIL.RANK_ID = RANK.RANK_ID " +
+			"WHERE GAME_ID = " + gameId;
+			
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				int turn = resultSet.getInt("TURN");
+				String izume = resultSet.getString("IZUME");
+				int score = resultSet.getInt("SCORE");
+				String name = resultSet.getString("NAME");
 				
 				Log log = new Log();
 				log.setTurn(turn);
 				log.setIzume(izume);
 				log.setScore(score);
-				log.setRankId(rankId);
-				log.setGameId(gameId);
+				log.setName(name);
 				
 				logList.add(log);
 			}
@@ -121,4 +189,5 @@ public class GameDetailDAO {
 		
 		return logList;
 	}
+	
 }

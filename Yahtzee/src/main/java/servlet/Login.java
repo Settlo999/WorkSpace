@@ -39,7 +39,7 @@ public class Login extends HttpServlet {
 		
 		//通常ログインなら
 		if(isFirst == null) {
-			LoginLogic loginLogic = new LoginLogic();
+			LoginLogic loginLogic = LoginLogic.getInstance();
 			boolean isLogin = loginLogic.execute(user);
 			
 			if(isLogin) {
@@ -57,7 +57,7 @@ public class Login extends HttpServlet {
 			}	
 		}
 		else {
-			UserRejisterLogic userRejisterLogic = new UserRejisterLogic();
+			UserRejisterLogic userRejisterLogic = UserRejisterLogic.getInstance();
 			boolean isRejistered = userRejisterLogic.rejister(user);
 			
 			//登録成功なら
