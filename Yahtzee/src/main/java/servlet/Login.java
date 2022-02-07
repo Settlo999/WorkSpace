@@ -32,12 +32,12 @@ public class Login extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String name = request.getParameter("name");
 		String pass = request.getParameter("pass");
-		//通常ログインor新規登録のチェック用変数。通常ログインならisFirst = null
+		//ログインor新規登録のチェック用変数。ログインならisFirst = null
 		String isFirst = request.getParameter("isFirst");
 		
 		User user = new User(name, pass);
 		
-		//通常ログインなら
+		//ログインなら
 		if(isFirst == null) {
 			LoginLogic loginLogic = LoginLogic.getInstance();
 			boolean isLogin = loginLogic.execute(user);

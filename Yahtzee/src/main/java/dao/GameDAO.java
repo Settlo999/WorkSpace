@@ -45,12 +45,12 @@ public class GameDAO {
 			pS.setInt(1, userId);
 			int result = pS.executeUpdate();
 			
-			//追加処理が完了したかチェック。※SQL文が成功していればresult = 1
+			//追加処理が完了したかチェック ※SQL文が成功していればresult = 1
 			if(result != 1) {
 				return false;
 			}
 			
-			//1番新しいゲームのIDだけ取得
+			//最新のゲームのIDだけ取得
 			sql = "SELECT * FROM GAME WHERE USER_ID = ? ORDER BY GAME_ID DESC";
 			pS = conn.prepareStatement(sql);
 			pS.setInt(1, userId);
@@ -72,6 +72,15 @@ public class GameDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		} finally {
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
 		}
 		
 	}
