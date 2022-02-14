@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 
-
 <%
 List<String> gameIdAndScoreList = (List<String>) session.getAttribute("gameIdAndScoreList");
 %>
@@ -16,15 +15,22 @@ List<String> gameIdAndScoreList = (List<String>) session.getAttribute("gameIdAnd
 </head>
 <body>
 
-<% for(int i = 0; i < gameIdAndScoreList.size(); i++) { %>
-	<%= gameIdAndScoreList.get(i) %><br>
-<% } %>
-
 <p>詳細を閲覧したいゲームのIDを入力してください<p>
 <form action="/Yahtzee/LogView" method="post">
 ゲームID:　<input type="text" name="gameId">
 <input type="submit" value="検索">
 </form>
+
+<p>
+<% for(int i = 0; i < gameIdAndScoreList.size(); i++) { %>
+	<%= gameIdAndScoreList.get(i) %><br>
+<% } %>
+<p>
+
+<p>
+<a href="/Yahtzee/Yahtzee">ゲームへ</a><br>
+<a href="/Yahtzee/Logout">ログアウト</a>
+<p>
 
 </body>
 </html>

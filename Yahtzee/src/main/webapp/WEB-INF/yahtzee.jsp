@@ -49,12 +49,14 @@ String[] suggestList = (String[]) session.getAttribute("suggestList");
 <% if(remakeDiceCount != 2) { %>
 <p>振り直す数字を選んでください(振り直しはあと<%= 2 - remakeDiceCount %>回)<p>
 <form action="/Yahtzee/Yahtzee" method="post">
-	<p><input type="checkbox" name="remake" value="1">1番目
+	<p>
+	<input type="checkbox" name="remake" value="1">1番目
 	<input type="checkbox" name="remake" value="2">2番目
 	<input type="checkbox" name="remake" value="3">3番目
 	<input type="checkbox" name="remake" value="4">4番目
 	<input type="checkbox" name="remake" value="5">5番目
-	<input type="submit" value="振りなおす"><p><br>
+	<input type="submit" value="振りなおす"><br>
+	<p>
 </form>
 <% } %>
 

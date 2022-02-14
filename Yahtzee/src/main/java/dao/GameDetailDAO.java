@@ -11,7 +11,9 @@ import java.util.List;
 import javaBeans.GameDetail;
 import javaBeans.Log;
 
-//ゲーム詳細テーブルを扱うクラス
+/*
+ * ゲーム詳細テーブルを扱うDAO ※Singleton
+ */
 public class GameDetailDAO {
 	
 	//Singleton
@@ -110,16 +112,29 @@ public class GameDetailDAO {
 				ResultSet resultSet = preparedStatement.executeQuery();
 				
 				while(resultSet.next()) {
-					String sumScore = String.valueOf(resultSet.getInt("SUM(SCORE)"));
-					gameAndScoreList.add(gameId + ": " + sumScore + "点");
+					int sumScore = resultSet.getInt("SUM(SCORE)");
+					
+					String sqlForBonus = "SELECT SUM(SCORE) FROM GAME_DETAIL WHERE GAME_ID = " + gameId + 
+							" AND RANK_ID <= 6";
+					PreparedStatement pSForBonus = conn.prepareStatement(sqlForBonus);
+					ResultSet rSForBonus = pSForBonus.executeQuery();
+					
+					int sumOneToSix = 0;
+					while (rSForBonus.next()) {
+						sumOneToSix = rSForBonus.getInt("SUM(SCORE)");
+					}
+					
+					if(sumOneToSix >= 63) {
+						sumScore += 35;
+					}
+					
+					gameAndScoreList.add(gameId + ": " + String.valueOf(sumScore) + "点");
 				}
 			}
 			
 		} catch (ClassNotFoundException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		} finally {
 			if(conn != null) {

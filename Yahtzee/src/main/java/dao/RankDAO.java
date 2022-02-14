@@ -1,6 +1,8 @@
 package dao;
 
-//役テーブルを扱うクラス
+/*
+ * 役テーブルを扱う ※Singleton
+ */
 public class RankDAO {
 	
 	//Singleton

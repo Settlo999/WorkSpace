@@ -6,7 +6,9 @@ import dao.GameDAO;
 import dao.GameDetailDAO;
 import javaBeans.Log;
 
-//記録閲覧処理
+/*
+ * 記録閲覧処理クラス　※Singleton
+ */
 public class LogViewLogic {
 	
 	//Singleton

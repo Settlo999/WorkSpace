@@ -3,7 +3,9 @@ package model;
 import dao.UsersDAO;
 import javaBeans.User;
 
-//ログイン処理
+/*
+ * ログイン処理クラス　※Singleton
+ */
 public class LoginLogic {
 	
 	//Singleton
@@ -16,7 +18,11 @@ public class LoginLogic {
 		return loginLogic;
 	}
 	
-	//UsersDAOに登録済みか調べさせる
+	/*
+	 * ユーザーを受け取って、UsersDAOに登録済みか調べさせて、その成否を返す
+	 * @param User user ユーザー
+	 * @return trueかfalse 成否
+	 */
 	public boolean execute(User user) {
 		UsersDAO UD = UsersDAO.getInstance();
 		boolean isSuccessed = UD.isFind(user);

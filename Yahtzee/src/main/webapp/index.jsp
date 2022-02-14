@@ -13,14 +13,20 @@ String errorMsg = (String) request.getAttribute("errorMsg");
 <title>ようこそ</title>
 </head>
 <body>
+
+<p>
 <form action="/Yahtzee/Login" method="post">
 ユーザー名:<input type="text" name="name"><br>
 パスワード:<input type="text" name="pass"><br>
 <input type="submit" value="ログイン">
 </form>
-<a href="/Yahtzee/Login">新規登録</a>
+<p>
+
+<p><a href="/Yahtzee/Login">新規登録</a><p>
+
 <% if(errorMsg != null) { %>
 	<p><%= errorMsg %></p>
 <% } %>
+
 </body>
 </html>

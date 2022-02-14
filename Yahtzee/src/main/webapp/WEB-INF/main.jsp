@@ -15,7 +15,8 @@
 
 <p>ようこそ、<%= loginUser.getName() %>さん</p>
 <a href="/Yahtzee/Yahtzee">ゲームへ</a><br>
-<a href="/Yahtzee/LogView">記録閲覧へ</a>
+<a href="/Yahtzee/LogView">記録閲覧へ</a><br>
+<a href="/Yahtzee/Logout">ログアウト</a>
 
 </body>
 </html>

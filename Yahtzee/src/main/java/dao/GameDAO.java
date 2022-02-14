@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-//ゲームテーブルを扱うクラス
+/*
+ * ゲームテーブルを扱うDAO ※Singleton
+ */
 public class GameDAO {
 	
 	//Singleton
@@ -30,7 +32,10 @@ public class GameDAO {
 	private final String DB_USER = "sa";
 	private final String DB_PASS = "";
 	
-	//ゲームテーブルにゲームID・ユーザーIDを追加後、ゲームIDをフィールドに保持
+	/*
+	 * ユーザーIDを受け取って、ゲームテーブルにゲームID(DB側で自動作成)・ユーザーIDを追加後、ゲームIDを取得してフィールドに保持
+	 * @param int userId ユーザーID
+	 */
 	public boolean create(int userId) {
 		
 		Connection conn = null;

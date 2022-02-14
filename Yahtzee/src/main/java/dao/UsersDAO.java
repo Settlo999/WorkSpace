@@ -8,7 +8,9 @@ import java.sql.SQLException;
 
 import javaBeans.User;
 
-//ユーザーテーブルを扱うクラス
+/*
+ * ユーザーテーブルを扱うDAO ※Singleton
+ */
 public class UsersDAO {
 	
 	//Singleton
@@ -27,7 +29,11 @@ public class UsersDAO {
 	private final String DB_USER = "sa";
 	private final String DB_PASS = "";
 	
-	//ユーザーが登録済みなら、IDをユーザーテーブルから取得してuserにset
+	/*
+	 * ユーザーを受け取ってそのユーザーが登録済みなら、IDをユーザーテーブルから取得してユーザーにsetし、その成否を返す
+	 * @param User user ユーザー
+	 * @return trueかfalse 成否
+	 */
 	public boolean isFind(User user) {
 		
 		Connection conn = null;
@@ -63,7 +69,11 @@ public class UsersDAO {
 		
 	}
 	
-	//ユーザーを追加
+	/*
+	 * ユーザーを受けとって、ユーザーテーブルに追加し、その成否を返す
+	 * @param User user ユーザー
+	 * @return trueかfalse 成否
+	 */
 	public boolean create(User user) {
 		
 		Connection conn = null;

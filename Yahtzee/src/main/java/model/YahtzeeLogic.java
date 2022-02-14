@@ -36,6 +36,7 @@ public class YahtzeeLogic {
 	
 	/*
 	 * ゲーム詳細を受け取って、GameDetailDAOに追加させる
+	 * @param GameDetail gameDetail ゲーム詳細
 	 */
 	public void addGameDetail(GameDetail gameDetail) {
 		GameDetailDAO gameDetailDAO = GameDetailDAO.getInstance();
